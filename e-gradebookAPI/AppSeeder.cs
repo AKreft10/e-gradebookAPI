@@ -32,6 +32,12 @@ namespace e_gradebookAPI
                     await _context.Subjects.AddRangeAsync(subjects);
                     await _context.SaveChangesAsync();
                 }
+                if (!_context.Students.Any())
+                {
+                    var students = GetStudents();
+                    await _context.Students.AddRangeAsync(students);
+                    await _context.SaveChangesAsync();
+                }
             }
         }
 
@@ -127,6 +133,25 @@ namespace e_gradebookAPI
             };
 
             return teachers;
+        }
+        private static List<Student> GetStudents()
+        {
+            List<Student> students = new List<Student>()
+            {
+                new Student()
+                {
+                    FirstName = "Mark",
+                    LastName = "Green",
+                    DateOfBirth = new DateTime(2000,04,12)
+                },
+                new Student()
+                {
+                    FirstName = "Sophie",
+                    LastName = "Waller",
+                    DateOfBirth = new DateTime(2001,11,01)
+                },
+            };
+            return students;
         }
         
 

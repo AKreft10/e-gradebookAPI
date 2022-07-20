@@ -11,7 +11,9 @@ namespace e_gradebookAPI.Data
         public int Id { get; set; }
         public int GradeValue { get; set; }
         public int GradeWeight { get; set; }
+        public int StudentId { get; set; }
         public Student Student { get; set; }
+        public int SubjectId { get; set; }
         public Subject Subject { get; set; }
     }
 }

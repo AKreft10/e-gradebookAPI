@@ -48,7 +48,7 @@ namespace e_gradebookAPI.Migrations
 
                     b.HasIndex("SubjectId");
 
-                    b.ToTable("Grades");
+                    b.ToTable("Grades", (string)null);
                 });
 
             modelBuilder.Entity("e_gradebookAPI.Data.Student", b =>
@@ -72,7 +72,7 @@ namespace e_gradebookAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Students");
+                    b.ToTable("Students", (string)null);
                 });
 
             modelBuilder.Entity("e_gradebookAPI.Data.Subject", b =>
@@ -94,7 +94,7 @@ namespace e_gradebookAPI.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("Subjects");
+                    b.ToTable("Subjects", (string)null);
                 });
 
             modelBuilder.Entity("e_gradebookAPI.Data.Teacher", b =>
@@ -118,7 +118,7 @@ namespace e_gradebookAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Teachers");
+                    b.ToTable("Teachers", (string)null);
                 });
 
             modelBuilder.Entity("e_gradebookAPI.Data.Grade", b =>
