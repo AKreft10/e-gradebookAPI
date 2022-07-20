@@ -20,21 +20,21 @@ namespace e_gradebookAPI.Controllers
             _teacherService = teacherService;
         }
 
-        [HttpPost]
+        [HttpPost("addgrade")]
         public async Task<ActionResult> AddGrade([FromBody] AddGradeDto dto)
         {
             await _teacherService.AddGradeAsync(dto);
             return Ok();
         }
 
-        [HttpDelete]
+        [HttpDelete("removegrade")]
         public async Task<ActionResult> RemoveGrade([FromBody]int id)
         {
             await _teacherService.RemoveGradeByIdAsync(id);
             return NoContent();
         }
 
-        [HttpPut]
+        [HttpPut("replacegrade")]
         public async Task<ActionResult> ReplaceGrade([FromBody] ReplaceGradeDto dto)
         {
             await _teacherService.ReplaceGradeAsync(dto);
