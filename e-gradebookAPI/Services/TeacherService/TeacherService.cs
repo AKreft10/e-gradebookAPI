@@ -1,5 +1,6 @@
 ﻿using e_gradebookAPI.Data;
 using e_gradebookAPI.Dtos;
+using e_gradebookAPI.Middleware.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,9 @@ namespace e_gradebookAPI.Services.TeacherService
                 .Grades
                 .FirstOrDefaultAsync(z => z.Id == id);
 
+            if (gradeToRemove is null)
+                throw new NotFoundException("Grade not found.");
+
             _context.Grades.Remove(gradeToRemove);
             await _context.SaveChangesAsync();
         }
@@ -45,6 +49,9 @@ namespace e_gradebookAPI.Services.TeacherService
             var grade = await _context
                 .Grades
                 .FirstOrDefaultAsync(z => z.Id == dto.Id);
+
+            if (grade is null)
+                throw new NotFoundException("Grade not found.");
 
             grade.GradeValue = dto.GradeValue;
             grade.GradeWeight = dto.GradeWeight;

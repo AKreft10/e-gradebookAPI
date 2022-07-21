@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using e_gradebookAPI.Data;
 using e_gradebookAPI.Dtos;
+using e_gradebookAPI.Middleware.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,9 @@ namespace e_gradebookAPI.Services.StudentService
                 .Where(z => z.StudentId == studentId)
                 .ToListAsync();
 
+            if (result is null)
+                throw new NotFoundException("Grades not found.");
+
             var grades = _mapper.Map<List<GradesByStudentDto>>(result);
 
             return grades;
@@ -42,6 +46,9 @@ namespace e_gradebookAPI.Services.StudentService
                 .Include(z => z.Subject)
                 .Where(z => z.SubjectId == subjectId)
                 .ToListAsync();
+
+            if (result is null || result.Count == 0)
+                throw new NotFoundException("Grades not found.");
 
             var grades = _mapper.Map<List<GradeDto>>(result);
 
