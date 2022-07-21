@@ -19,6 +19,10 @@ namespace e_gradebookAPI.Middleware
             {
                 await context.Response.WriteAsync(notFound.Message);
             }
+            catch(Exception)
+            {
+                await context.Response.WriteAsync("Something went wrong...");
+            }
         }
     }
 }
