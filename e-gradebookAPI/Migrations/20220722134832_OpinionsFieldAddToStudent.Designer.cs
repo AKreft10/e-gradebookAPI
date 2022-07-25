@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using e_gradebookAPI.Data;
 
@@ -11,9 +12,10 @@ using e_gradebookAPI.Data;
 namespace e_gradebookAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220722134832_OpinionsFieldAddToStudent")]
+    partial class OpinionsFieldAddToStudent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -69,7 +71,7 @@ namespace e_gradebookAPI.Migrations
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("StudentId")
+                    b.Property<int?>("StudentId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -182,15 +184,11 @@ namespace e_gradebookAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("e_gradebookAPI.Data.Student", "Student")
+                    b.HasOne("e_gradebookAPI.Data.Student", null)
                         .WithMany("Opinions")
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("StudentId");
 
                     b.Navigation("CreatedBy");
-
-                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("e_gradebookAPI.Data.Subject", b =>

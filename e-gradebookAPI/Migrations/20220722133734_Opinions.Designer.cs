@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using e_gradebookAPI.Data;
 
@@ -11,9 +12,10 @@ using e_gradebookAPI.Data;
 namespace e_gradebookAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220722133734_Opinions")]
+    partial class Opinions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,7 +53,7 @@ namespace e_gradebookAPI.Migrations
                     b.ToTable("Grades");
                 });
 
-            modelBuilder.Entity("e_gradebookAPI.Data.Opinion", b =>
+            modelBuilder.Entity("e_gradebookAPI.Data.Opinions", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -69,14 +71,9 @@ namespace e_gradebookAPI.Migrations
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedById");
-
-                    b.HasIndex("StudentId");
 
                     b.ToTable("Opinions");
                 });
@@ -174,7 +171,7 @@ namespace e_gradebookAPI.Migrations
                     b.Navigation("Subject");
                 });
 
-            modelBuilder.Entity("e_gradebookAPI.Data.Opinion", b =>
+            modelBuilder.Entity("e_gradebookAPI.Data.Opinions", b =>
                 {
                     b.HasOne("e_gradebookAPI.Data.Teacher", "CreatedBy")
                         .WithMany()
@@ -182,15 +179,7 @@ namespace e_gradebookAPI.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("e_gradebookAPI.Data.Student", "Student")
-                        .WithMany("Opinions")
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("CreatedBy");
-
-                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("e_gradebookAPI.Data.Subject", b =>
@@ -207,8 +196,6 @@ namespace e_gradebookAPI.Migrations
             modelBuilder.Entity("e_gradebookAPI.Data.Student", b =>
                 {
                     b.Navigation("Grades");
-
-                    b.Navigation("Opinions");
                 });
 #pragma warning restore 612, 618
         }

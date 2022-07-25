@@ -1,4 +1,5 @@
-﻿using e_gradebookAPI.Data;
+﻿using AutoMapper;
+using e_gradebookAPI.Data;
 using e_gradebookAPI.Dtos;
 using e_gradebookAPI.Middleware.Exceptions;
 using Microsoft.EntityFrameworkCore;
@@ -13,10 +14,12 @@ namespace e_gradebookAPI.Services.TeacherService
     public class TeacherService : ITeacherService
     {
         private readonly AppDbContext _context;
+        private readonly IMapper _mapper;
 
-        public TeacherService(AppDbContext context)
+        public TeacherService(AppDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public async Task AddGradeAsync(AddGradeDto dto)
@@ -32,6 +35,36 @@ namespace e_gradebookAPI.Services.TeacherService
             await _context.Grades.AddAsync(grade);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<List<StudentDto>> GetStudentsByGradeYearIdAsync(string gradeYearId)
+        {
+            var students = await _context
+                .Students
+                .Where(z => z.GradeYear == gradeYearId)
+                .ToListAsync();
+
+            if (students is null)
+                throw new NotFoundException("Students not found");
+
+            var result = _mapper.Map<List<StudentDto>>(students);
+
+            return result;
+        }
+
+        public async Task<List<StudentDto>> GetStudentsListAsync()
+        {
+            var students = await _context
+                .Students
+                .ToListAsync();
+
+            if (students is null)
+                throw new NotFoundException("Students not found");
+
+            var result = _mapper.Map<List<StudentDto>>(students);
+
+            return result;
+        }
+
         public async Task RemoveGradeByIdAsync(int id)
         {
             var gradeToRemove = await _context
@@ -56,6 +89,46 @@ namespace e_gradebookAPI.Services.TeacherService
             grade.GradeValue = dto.GradeValue;
             grade.GradeWeight = dto.GradeWeight;
 
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<GradeDto>> GetGradesBySubjectIdAsync(int subjectId)
+        {
+            var result = await _context
+                .Grades
+                .Include(z => z.Student)
+                .Include(z => z.Subject)
+                .Where(z => z.SubjectId == subjectId)
+                .ToListAsync();
+
+            if (result is null || result.Count == 0)
+                throw new NotFoundException("Grades not found.");
+
+            var grades = _mapper.Map<List<GradeDto>>(result);
+
+
+            return grades;
+        }
+
+        public async Task AddOpinionToStudentAsync(AddOpinionDto dto)
+        {
+            //Just for test purposes, teacher will be recieved from claims
+
+            var teacher = await _context.Teachers
+                .FirstOrDefaultAsync(z => z.Id == 1);
+
+            if (teacher is null)
+                throw new Exception("teacher not found###Temporary exception###");
+
+            var opinion = new Opinion
+            {
+                Content = dto.Content,
+                CreationDate = DateTime.Now,
+                CreatedBy = teacher,
+                StudentId = dto.StudentId
+            };
+
+            await _context.AddAsync(opinion);
             await _context.SaveChangesAsync();
         }
     }

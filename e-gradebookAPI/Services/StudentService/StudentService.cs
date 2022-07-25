@@ -38,22 +38,19 @@ namespace e_gradebookAPI.Services.StudentService
             return grades;
         }
 
-        public async Task<List<GradeDto>> GetGradesBySubjectIdAsync(int subjectId)
+        public async Task<List<OpinionDto>> GetOpinionsByStudentIdAsync(int studentId)
         {
-            var result = await _context
-                .Grades
-                .Include(z => z.Student)
-                .Include(z => z.Subject)
-                .Where(z => z.SubjectId == subjectId)
+            var studentOpinions = await _context
+                .Opinions
+                .Where(z => z.StudentId == studentId)
                 .ToListAsync();
 
-            if (result is null || result.Count == 0)
-                throw new NotFoundException("Grades not found.");
+            if (studentOpinions is null)
+                throw new Exception("Student not found");
 
-            var grades = _mapper.Map<List<GradeDto>>(result);
+            var result = _mapper.Map<List<OpinionDto>>(studentOpinions);
 
-
-            return grades;
+            return result;
         }
     }
 }

@@ -10,7 +10,8 @@ namespace e_gradebookAPI.Services.StudentService
 {
     public interface IStudentService
     {
-        Task<List<GradeDto>> GetGradesBySubjectIdAsync(int subjectId);
+
         Task<List<GradesByStudentDto>> GetGradesByStudentIdAsync(int studentId);
+        Task<List<OpinionDto>> GetOpinionsByStudentIdAsync(int studentId);
     }
 }

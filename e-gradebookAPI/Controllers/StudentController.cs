@@ -21,18 +21,18 @@ namespace e_gradebookAPI.Controllers
             _gradeService = gradeSerive;
         }
 
-        [HttpGet("grades/subject/{subjectId}")]
-        public async Task<ActionResult<List<GradeDto>>> GetGradesBySubjectId(int subjectId)
-        {
-            var grades = await _gradeService.GetGradesBySubjectIdAsync(subjectId);
-            return Ok(grades);
-        }
-
         [HttpGet("grades/{studentId}")]
         public async Task<ActionResult<List<GradesByStudentDto>>> GetGradesByStudentId(int studentId)
         {
             var grades = await _gradeService.GetGradesByStudentIdAsync(studentId);
             return Ok(grades);
+        }
+
+        [HttpGet("opinions/{studentId}")]
+        public async Task<ActionResult<List<OpinionDto>>> GetOpinionsByStudentId(int studentId)
+        {
+            var opinions = await _gradeService.GetOpinionsByStudentIdAsync(studentId);
+            return Ok(opinions);
         }
     }
 }

@@ -12,7 +12,9 @@ namespace e_gradebookAPI.Data
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
         public DateTime DateOfBirth { get; set; }
+        public string GradeYear { get; set; } = string.Empty;
         public List<Grade> Grades { get; set; }
+        public List<Opinion> Opinions { get; set; }
 
     }
 }

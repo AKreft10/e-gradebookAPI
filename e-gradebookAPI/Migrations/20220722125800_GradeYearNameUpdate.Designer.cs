@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using e_gradebookAPI.Data;
 
@@ -11,9 +12,10 @@ using e_gradebookAPI.Data;
 namespace e_gradebookAPI.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220722125800_GradeYearNameUpdate")]
+    partial class GradeYearNameUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,36 +51,6 @@ namespace e_gradebookAPI.Migrations
                     b.HasIndex("SubjectId");
 
                     b.ToTable("Grades");
-                });
-
-            modelBuilder.Entity("e_gradebookAPI.Data.Opinion", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CreatedById")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreationDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("StudentId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatedById");
-
-                    b.HasIndex("StudentId");
-
-                    b.ToTable("Opinions");
                 });
 
             modelBuilder.Entity("e_gradebookAPI.Data.Student", b =>
@@ -174,25 +146,6 @@ namespace e_gradebookAPI.Migrations
                     b.Navigation("Subject");
                 });
 
-            modelBuilder.Entity("e_gradebookAPI.Data.Opinion", b =>
-                {
-                    b.HasOne("e_gradebookAPI.Data.Teacher", "CreatedBy")
-                        .WithMany()
-                        .HasForeignKey("CreatedById")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("e_gradebookAPI.Data.Student", "Student")
-                        .WithMany("Opinions")
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CreatedBy");
-
-                    b.Navigation("Student");
-                });
-
             modelBuilder.Entity("e_gradebookAPI.Data.Subject", b =>
                 {
                     b.HasOne("e_gradebookAPI.Data.Teacher", "Teacher")
@@ -207,8 +160,6 @@ namespace e_gradebookAPI.Migrations
             modelBuilder.Entity("e_gradebookAPI.Data.Student", b =>
                 {
                     b.Navigation("Grades");
-
-                    b.Navigation("Opinions");
                 });
 #pragma warning restore 612, 618
         }

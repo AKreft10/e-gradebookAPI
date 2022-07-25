@@ -12,5 +12,9 @@ namespace e_gradebookAPI.Services.TeacherService
         Task AddGradeAsync(AddGradeDto dto);
         Task RemoveGradeByIdAsync(int id);
         Task ReplaceGradeAsync(ReplaceGradeDto dto);
+        Task<List<StudentDto>> GetStudentsListAsync();
+        Task<List<StudentDto>> GetStudentsByGradeYearIdAsync(string gradeYearId);
+        Task<List<GradeDto>> GetGradesBySubjectIdAsync(int subjectId);
+        Task AddOpinionToStudentAsync(AddOpinionDto dto);
     }
 }
