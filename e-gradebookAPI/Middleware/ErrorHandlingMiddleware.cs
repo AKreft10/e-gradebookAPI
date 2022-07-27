@@ -15,6 +15,10 @@ namespace e_gradebookAPI.Middleware
             {
                 await next.Invoke(context);
             }
+            catch(BadRequestException badRequest)
+            {
+                await context.Response.WriteAsync(badRequest.Message);
+            }
             catch(NotFoundException notFound)
             {
                 await context.Response.WriteAsync(notFound.Message);

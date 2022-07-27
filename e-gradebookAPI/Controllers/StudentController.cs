@@ -1,5 +1,6 @@
 ﻿using e_gradebookAPI.Data;
 using e_gradebookAPI.Dtos;
+using e_gradebookAPI.Services.AccountService;
 using e_gradebookAPI.Services.StudentService;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -15,10 +16,12 @@ namespace e_gradebookAPI.Controllers
     public class StudentController : ControllerBase
     {
         private readonly IStudentService _gradeService;
+        private readonly IAccountService _accountService;
 
-        public StudentController(IStudentService gradeSerive)
+        public StudentController(IStudentService gradeSerive, IAccountService accountService)
         {
             _gradeService = gradeSerive;
+            _accountService = accountService;
         }
 
         [HttpGet("grades/{studentId}")]
@@ -34,5 +37,13 @@ namespace e_gradebookAPI.Controllers
             var opinions = await _gradeService.GetOpinionsByStudentIdAsync(studentId);
             return Ok(opinions);
         }
+
+        [HttpPost("login")]
+        public ActionResult Login([FromBody] LoginDto dto)
+        {
+            string token = _accountService.GenerateJwt(dto);
+            return Ok(token);
+        }
+        
     }
 }
