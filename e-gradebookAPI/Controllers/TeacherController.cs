@@ -69,5 +69,12 @@ namespace e_gradebookAPI.Controllers
             return Ok();
         }
 
+        [HttpPost("opinions/edit")]
+        public async Task<ActionResult> EditOpinionById(EditOpinionDto dto)
+        {
+            await _teacherService.EditOpinionByIdAsync(dto);
+            return Ok();
+        }
+
     }
 }

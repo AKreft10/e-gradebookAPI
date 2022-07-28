@@ -12,6 +12,7 @@ namespace e_gradebookAPI.Data
         public string Content { get; set; } = string.Empty;
         public Teacher CreatedBy { get; set; } = new Teacher();
         public DateTime CreationDate { get; set; }
+        public DateTime LastEdit { get; set; }
         public int StudentId { get; set; }
         public Student Student { get; set; } = new Student();
     }

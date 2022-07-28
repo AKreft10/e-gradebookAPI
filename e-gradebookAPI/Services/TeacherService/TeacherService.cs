@@ -131,5 +131,20 @@ namespace e_gradebookAPI.Services.TeacherService
             await _context.AddAsync(opinion);
             await _context.SaveChangesAsync();
         }
+
+        public async Task EditOpinionByIdAsync(EditOpinionDto dto)
+        {
+            var opinion = await _context
+                .Opinions
+                .FirstOrDefaultAsync(z => z.Id == dto.OpinionId);
+
+            if (opinion is null)
+                throw new Exception("Opinion not found.");
+
+            opinion.Content = dto.Content;
+            opinion.LastEdit = DateTime.Now;
+
+            await _context.SaveChangesAsync();
+        }
     }
 }
