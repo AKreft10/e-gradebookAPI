@@ -139,7 +139,7 @@ namespace e_gradebookAPI.Services.TeacherService
                 .FirstOrDefaultAsync(z => z.Id == dto.OpinionId);
 
             if (opinion is null)
-                throw new Exception("Opinion not found.");
+                throw new NotFoundException("Opinion not found.");
 
             opinion.Content = dto.Content;
             opinion.LastEdit = DateTime.Now;
