@@ -36,6 +36,7 @@ namespace e_gradebookAPI.Services.TeacherService
             await _context.SaveChangesAsync();
         }
 
+        //TODO: Authorization by role
         public async Task<List<StudentDto>> GetStudentsByGradeYearIdAsync(string gradeYearId)
         {
             var students = await _context
@@ -50,7 +51,7 @@ namespace e_gradebookAPI.Services.TeacherService
 
             return result;
         }
-
+        //TODO: Authorization by role
         public async Task<List<StudentDto>> GetStudentsListAsync()
         {
             var students = await _context
@@ -64,7 +65,7 @@ namespace e_gradebookAPI.Services.TeacherService
 
             return result;
         }
-
+        //TODO: Authorization by role/creator
         public async Task RemoveGradeByIdAsync(int id)
         {
             var gradeToRemove = await _context
@@ -77,6 +78,8 @@ namespace e_gradebookAPI.Services.TeacherService
             _context.Grades.Remove(gradeToRemove);
             await _context.SaveChangesAsync();
         }
+
+        //TODO: Authorization by role/creator
         public async Task ReplaceGradeAsync(ReplaceGradeDto dto)
         {
             var grade = await _context
@@ -92,6 +95,7 @@ namespace e_gradebookAPI.Services.TeacherService
             await _context.SaveChangesAsync();
         }
 
+        //TODO: Authorization by role
         public async Task<List<GradeDto>> GetGradesBySubjectIdAsync(int subjectId)
         {
             var result = await _context
@@ -132,6 +136,7 @@ namespace e_gradebookAPI.Services.TeacherService
             await _context.SaveChangesAsync();
         }
 
+        //TODO : authorization by creator ID
         public async Task EditOpinionByIdAsync(EditOpinionDto dto)
         {
             var opinion = await _context
@@ -144,6 +149,19 @@ namespace e_gradebookAPI.Services.TeacherService
             opinion.Content = dto.Content;
             opinion.LastEdit = DateTime.Now;
 
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task RemoveOpinionByIdAsync(int id)
+        {
+            var opinion = await _context
+                .Opinions
+                .FirstOrDefaultAsync(z => z.Id == id);
+
+            if (opinion is null)
+                throw new NotFoundException("Opinion not found");
+
+            _context.Opinions.Remove(opinion);
             await _context.SaveChangesAsync();
         }
     }

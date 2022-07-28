@@ -69,11 +69,18 @@ namespace e_gradebookAPI.Controllers
             return Ok();
         }
 
-        [HttpPost("opinions/edit")]
+        [HttpPut("opinions/edit")]
         public async Task<ActionResult> EditOpinionById(EditOpinionDto dto)
         {
             await _teacherService.EditOpinionByIdAsync(dto);
             return Ok();
+        }
+
+        [HttpDelete("opinions/remove/{id}")]
+        public async Task<ActionResult> RemoveOpinionById(int id)
+        {
+            await _teacherService.RemoveOpinionByIdAsync(id);
+            return NoContent();
         }
 
     }
