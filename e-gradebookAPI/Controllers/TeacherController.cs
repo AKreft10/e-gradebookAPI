@@ -41,7 +41,7 @@ namespace e_gradebookAPI.Controllers
             return Ok();
         }
 
-        [HttpGet]
+        [HttpGet("getstudentslist")]
         public async Task<ActionResult> GetStudentsList()
         {
             var students = await _teacherService.GetStudentsListAsync();
